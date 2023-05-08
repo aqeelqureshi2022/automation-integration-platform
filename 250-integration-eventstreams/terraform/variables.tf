@@ -7,62 +7,127 @@ variable "entitlement_key" {
   type = string
   description = "The entitlement key used to access the CP4I images in the container registry. Visit https://myibm.ibm.com/products-services/containerlibrary to get the key"
 }
-variable "gitops-cp-mq_namespace" {
+variable "gitops-cp-es-operator_namespace" {
   type = string
   description = "The namespace where the application should be deployed"
   default = "openshift-operators"
 }
-variable "gitops-cp-mq_catalog_namespace" {
+variable "gitops-cp-es-operator_catalog_namespace" {
   type = string
   description = "The namespace where the catalog has been deployed"
   default = "openshift-marketplace"
 }
-variable "gitops-cp-queue-manager_qmgr_name" {
-  type = string
-  description = "Name of queue manager to be created"
-  default = "QM1"
+variable "gitops-cp-event-streams_requestIbmServices_iam" {
+  type = bool
+  description = "IAM services"
+  default = true
 }
-variable "gitops-cp-queue-manager_qmgr_instance_name" {
-  type = string
-  description = "Name of MQ instance to be created"
-  default = "mq-instance"
+variable "gitops-cp-event-streams_requestIbmServices_monitoring" {
+  type = bool
+  description = "Monitoring services"
+  default = true
 }
-variable "gitops-cp-queue-manager_cpulimits" {
-  type = string
-  description = "CPU limits for the queue manager instance"
-  default = "500m"
+variable "gitops-cp-event-streams_kafka_replicas" {
+  type = number
+  description = "Number of kafka replicas"
+  default = 3
 }
-variable "gitops-cp-queue-manager_cpurequests" {
+variable "gitops-cp-event-streams_zookeeper_replicas" {
+  type = number
+  description = "Number of zookeeper replicas"
+  default = 3
+}
+variable "gitops-cp-event-streams_es_version" {
   type = string
-  description = "CPU requests for the queue manager instance"
-  default = "500m"
+  description = "Version of Event streams to be installed"
+  default = "11.0.2"
+}
+variable "gitops-cp-event-streams_cpulimits" {
+  type = string
+  description = "CPU limits for the kafka instance"
+  default = "1"
+}
+variable "gitops-cp-event-streams_cpurequests" {
+  type = string
+  description = "CPU requests for the kafka instance"
+  default = "100m"
+}
+variable "gitops-cp-event-streams_memorylimits" {
+  type = string
+  description = "Memory limits for the kafka instance"
+  default = "2Gi"
+}
+variable "gitops-cp-event-streams_memoryrequests" {
+  type = string
+  description = "Memory requests for the kafka instance"
+  default = "128Mi"
 }
 variable "rwo_storage_class" {
   type = string
   description = "ReadWriteOnce access type Storage Class"
-  default = "portworx-db2-rwo-sc"
+  default = "ibmc-vpc-block-10iops-tier"
 }
-variable "gitops-cp-queue-manager_config_map" {
+variable "gitops-cp-event-streams_kafka_storagetype" {
   type = string
-  description = "Name of config map to created"
-  default = "oms-queue-config"
+  description = "Storage type for kafka"
+  default = "persistent-claim"
 }
-variable "cp4i-mq_name" {
+variable "gitops-cp-event-streams_zookeeper_storagetype" {
+  type = string
+  description = "Storage type for zookeeper"
+  default = "persistent-claim"
+}
+variable "gitops-cp-event-streams_kafka_storagesize" {
+  type = string
+  description = "Storage size - applicable only for persistent storage type"
+  default = "10Gi"
+}
+variable "gitops-cp-event-streams_zookeeper_storagesize" {
+  type = string
+  description = "Storage size - applicable only for persistent storage type"
+  default = "4Gi"
+}
+variable "gitops-cp-event-streams_service_name" {
+  type = string
+  description = "Event stream instance name"
+  default = "es-instance"
+}
+variable "gitops-cp-event-streams_es_apiVersion" {
+  type = string
+  description = "Event stream API version"
+  default = "v1beta2"
+}
+variable "gitops-cp-event-streams_kafka_inter_broker_protocol_version" {
+  type = string
+  description = "Kafka config inter broker protocol version"
+  default = "3.2"
+}
+variable "gitops-cp-event-streams_kafka_log_message_format_version" {
+  type = string
+  description = "Kafka config loag message format version"
+  default = "3.2"
+}
+variable "gitops-cp-event-streams_kafka_listeners" {
+  type = list
+  description = "Kafka listerners defaults to secure - override to provide light-insecure"
+  default = []
+}
+variable "cp4i-es_name" {
   type = string
   description = "The value that should be used for the namespace"
-  default = "cp4i-mq"
+  default = "cp4i-es"
 }
-variable "cp4i-mq_ci" {
+variable "cp4i-es_ci" {
   type = bool
   description = "Flag indicating that this namespace will be used for development (e.g. configmaps and secrets)"
   default = false
 }
-variable "cp4i-mq_create_operator_group" {
+variable "cp4i-es_create_operator_group" {
   type = bool
   description = "Flag indicating that an operator group should be created in the namespace"
   default = true
 }
-variable "cp4i-mq_argocd_namespace" {
+variable "cp4i-es_argocd_namespace" {
   type = string
   description = "The namespace where argocd has been deployed"
   default = "openshift-gitops"

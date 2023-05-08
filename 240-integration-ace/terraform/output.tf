@@ -34,6 +34,54 @@ output "cp4i-version-dependency_datapower" {
   description = "IBM DataPower operator configuration"
   value = module.cp4i-version-dependency.datapower
 }
+output "gitops-cp-ace_name" {
+  description = "The name of the module"
+  value = module.gitops-cp-ace.name
+}
+output "gitops-cp-ace_branch" {
+  description = "The branch where the module config has been placed"
+  value = module.gitops-cp-ace.branch
+}
+output "gitops-cp-ace_namespace" {
+  description = "The namespace where the module will be deployed"
+  value = module.gitops-cp-ace.namespace
+}
+output "gitops-cp-ace_server_name" {
+  description = "The server where the module will be deployed"
+  value = module.gitops-cp-ace.server_name
+}
+output "gitops-cp-ace_layer" {
+  description = "The layer where the module is deployed"
+  value = module.gitops-cp-ace.layer
+}
+output "gitops-cp-ace_type" {
+  description = "The type of module where the module is deployed"
+  value = module.gitops-cp-ace.type
+}
+output "gitops-cp-ace-designer_name" {
+  description = "The name of the module"
+  value = module.gitops-cp-ace-designer.name
+}
+output "gitops-cp-ace-designer_branch" {
+  description = "The branch where the module config has been placed"
+  value = module.gitops-cp-ace-designer.branch
+}
+output "gitops-cp-ace-designer_namespace" {
+  description = "The namespace where the module will be deployed"
+  value = module.gitops-cp-ace-designer.namespace
+}
+output "gitops-cp-ace-designer_server_name" {
+  description = "The server where the module will be deployed"
+  value = module.gitops-cp-ace-designer.server_name
+}
+output "gitops-cp-ace-designer_layer" {
+  description = "The layer where the module is deployed"
+  value = module.gitops-cp-ace-designer.layer
+}
+output "gitops-cp-ace-designer_type" {
+  description = "The type of module where the module is deployed"
+  value = module.gitops-cp-ace-designer.type
+}
 output "gitops-cp-catalogs_name" {
   description = "The name of the module"
   value = module.gitops-cp-catalogs.name
@@ -79,69 +127,9 @@ output "gitops-cp-catalogs_entitlement_key" {
   value = module.gitops-cp-catalogs.entitlement_key
   sensitive = true
 }
-output "gitops-cp-mq_name" {
-  description = "The name of the module"
-  value = module.gitops-cp-mq.name
-}
-output "gitops-cp-mq_branch" {
-  description = "The branch where the module config has been placed"
-  value = module.gitops-cp-mq.branch
-}
-output "gitops-cp-mq_namespace" {
-  description = "The namespace where the module will be deployed"
-  value = module.gitops-cp-mq.namespace
-}
-output "gitops-cp-mq_server_name" {
-  description = "The server where the module will be deployed"
-  value = module.gitops-cp-mq.server_name
-}
-output "gitops-cp-mq_layer" {
-  description = "The layer where the module is deployed"
-  value = module.gitops-cp-mq.layer
-}
-output "gitops-cp-mq_type" {
-  description = "The type of module where the module is deployed"
-  value = module.gitops-cp-mq.type
-}
-output "gitops-cp-queue-manager_instance_name" {
-  description = "The name of the module"
-  value = module.gitops-cp-queue-manager.instance_name
-}
-output "gitops-cp-queue-manager_qmgr_instance_name" {
-  description = "Name of queue manager created"
-  value = module.gitops-cp-queue-manager.qmgr_instance_name
-}
-output "gitops-cp-queue-manager_config_map" {
-  description = "the value of gitops-cp-queue-manager_config_map"
-  value = module.gitops-cp-queue-manager.config_map
-}
-output "gitops-cp-queue-manager_name" {
-  description = "The name of the module"
-  value = module.gitops-cp-queue-manager.name
-}
-output "gitops-cp-queue-manager_branch" {
-  description = "The branch where the module config has been placed"
-  value = module.gitops-cp-queue-manager.branch
-}
-output "gitops-cp-queue-manager_namespace" {
-  description = "The namespace where the module will be deployed"
-  value = module.gitops-cp-queue-manager.namespace
-}
-output "gitops-cp-queue-manager_server_name" {
-  description = "The server where the module will be deployed"
-  value = module.gitops-cp-queue-manager.server_name
-}
-output "gitops-cp-queue-manager_layer" {
-  description = "The layer where the module is deployed"
-  value = module.gitops-cp-queue-manager.layer
-}
-output "gitops-cp-queue-manager_type" {
-  description = "The type of module where the module is deployed"
-  value = module.gitops-cp-queue-manager.type
-}
-output "cp4i-mq_name" {
+output "cp4i-ace_name" {
   description = "Namespace name"
-  value = module.cp4i-mq.name
+  value = module.cp4i-ace.name
 }
 output "gitops_repo_config_host" {
   description = "The host name of the bootstrap git repo"

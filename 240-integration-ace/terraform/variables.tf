@@ -3,66 +3,61 @@ variable "cp4i-version-dependency_cp4i_version" {
   description = "The CP4i Version. Possible values are (2021_4_1 , 2022_1_1). If no values is set by default this will refer to Latest available CP4i version"
   default = "2022_2_1"
 }
-variable "entitlement_key" {
-  type = string
-  description = "The entitlement key used to access the CP4I images in the container registry. Visit https://myibm.ibm.com/products-services/containerlibrary to get the key"
-}
-variable "gitops-cp-mq_namespace" {
+variable "gitops-cp-ace_namespace" {
   type = string
   description = "The namespace where the application should be deployed"
   default = "openshift-operators"
 }
-variable "gitops-cp-mq_catalog_namespace" {
+variable "gitops-cp-ace_catalog_namespace" {
   type = string
   description = "The namespace where the catalog has been deployed"
   default = "openshift-marketplace"
 }
-variable "gitops-cp-queue-manager_qmgr_name" {
+variable "gitops-cp-ace_platform_navigator_name" {
   type = string
-  description = "Name of queue manager to be created"
-  default = "QM1"
+  description = "The name of the platform navigator instance"
+  default = ""
 }
-variable "gitops-cp-queue-manager_qmgr_instance_name" {
-  type = string
-  description = "Name of MQ instance to be created"
-  default = "mq-instance"
+variable "gitops-cp-ace-designer_is_map_assist_required" {
+  type = bool
+  description = "To enable mapassist feature"
+  default = false
 }
-variable "gitops-cp-queue-manager_cpulimits" {
+variable "gitops-cp-ace-designer_ace_designer_instance_name" {
   type = string
-  description = "CPU limits for the queue manager instance"
-  default = "500m"
-}
-variable "gitops-cp-queue-manager_cpurequests" {
-  type = string
-  description = "CPU requests for the queue manager instance"
-  default = "500m"
+  description = "If ACE Designer instance name needed to be overridden"
+  default = ""
 }
 variable "rwo_storage_class" {
   type = string
   description = "ReadWriteOnce access type Storage Class"
   default = "portworx-db2-rwo-sc"
 }
-variable "gitops-cp-queue-manager_config_map" {
+variable "rwx_storage_class" {
   type = string
-  description = "Name of config map to created"
-  default = "oms-queue-config"
+  description = "ReadWriteMany access type Storage Class"
+  default = "portworx-rwx-gp-sc"
 }
-variable "cp4i-mq_name" {
+variable "entitlement_key" {
+  type = string
+  description = "The entitlement key used to access the CP4I images in the container registry. Visit https://myibm.ibm.com/products-services/containerlibrary to get the key"
+}
+variable "cp4i-ace_name" {
   type = string
   description = "The value that should be used for the namespace"
-  default = "cp4i-mq"
+  default = "cp4i-ace"
 }
-variable "cp4i-mq_ci" {
+variable "cp4i-ace_ci" {
   type = bool
   description = "Flag indicating that this namespace will be used for development (e.g. configmaps and secrets)"
   default = false
 }
-variable "cp4i-mq_create_operator_group" {
+variable "cp4i-ace_create_operator_group" {
   type = bool
   description = "Flag indicating that an operator group should be created in the namespace"
   default = true
 }
-variable "cp4i-mq_argocd_namespace" {
+variable "cp4i-ace_argocd_namespace" {
   type = string
   description = "The namespace where argocd has been deployed"
   default = "openshift-gitops"

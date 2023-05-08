@@ -1,13 +1,13 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: 230-integration-mq
+  name: 240-integration-ace
   labels:
     type: software
-    code: '230'
+    code: '240'
   annotations:
-    displayName: Integration - MQ
-    description: GitOps deployment of MQ for Cloud pak for Integration
+    displayName: Integration - App Connect
+    description: GitOps deployment of App Connect for Cloud pak for Integration
     deployment-type/gitops: 'true'
 spec:
   modules:
@@ -17,37 +17,36 @@ spec:
       variables:
         - name: cp4i_version
           value: '2022_2_1'
+    - name: gitops-cp-ace
+      alias: gitops-cp-ace
+      version: v1.0.8
+    - name: gitops-cp-ace-designer
+      alias: gitops-cp-ace-designer
+      version: v1.0.5
+      dependencies:
+        - name: namespace
+          ref: cp4i-ace
+      variables:
+        - name: storage_class_4_couchdb
+          alias: rwo_storage_class
+          scope: global
+        - name: storage_class_4_mapassist
+          alias: rwx_storage_class
+          scope: global
+        - name: is_map_assist_required
+          value: false
     - name: gitops-cp-catalogs
       alias: gitops-cp-catalogs
       version: v1.2.7
       variables:
         - name: entitlement_key
           scope: global
-    - name: gitops-cp-mq
-      alias: gitops-cp-mq
-      version: v1.1.7
-    - name: gitops-cp-queue-manager
-      alias: gitops-cp-queue-manager
-      version: v1.0.7
-      dependencies:
-        - name: namespace
-          ref: cp4i-mq
-      variables:
-        - name: qmgr_name
-          value: QM1
-        - name: qmgr_instance_name
-          value: mq-instance
-        - name: config_map
-          value: oms-queue-config
-        - name: storageClass
-          alias: rwo_storage_class
-          scope: global
     - name: gitops-namespace
-      alias: cp4i-mq
+      alias: cp4i-ace
       version: v1.15.0
       variables:
         - name: name
-          value: cp4i-mq
+          value: cp4i-ace
     - name: gitops-repo
       alias: gitops_repo
       version: v1.22.2
@@ -75,6 +74,14 @@ spec:
     - name: util-clis
       version: v1.18.1
   variables:
+    - name: rwo_storage_class
+      type: string
+      description: ReadWriteOnce access type Storage Class
+      defaultValue: portworx-db2-rwo-sc
+    - name: rwx_storage_class
+      type: string
+      description: ReadWriteMany access type Storage Class
+      defaultValue: portworx-rwx-gp-sc
     - name: entitlement_key
       type: string
       description: >-
@@ -82,10 +89,6 @@ spec:
         registry. Visit https://myibm.ibm.com/products-services/containerlibrary
         to get the key
       sensitive: true
-    - name: rwo_storage_class
-      type: string
-      description: ReadWriteOnce access type Storage Class
-      defaultValue: portworx-db2-rwo-sc
     - name: gitops_repo_host
       type: string
       description: The host for the git repository.

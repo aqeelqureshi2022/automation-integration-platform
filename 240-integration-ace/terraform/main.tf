@@ -12,15 +12,15 @@ module "cluster" {
   skip = var.cluster_skip
   tls_secret_name = var.cluster_tls_secret_name
 }
-module "cp4i-mq" {
+module "cp4i-ace" {
   source = "github.com/cloud-native-toolkit/terraform-gitops-namespace?ref=v1.15.0"
 
-  argocd_namespace = var.cp4i-mq_argocd_namespace
-  ci = var.cp4i-mq_ci
-  create_operator_group = var.cp4i-mq_create_operator_group
+  argocd_namespace = var.cp4i-ace_argocd_namespace
+  ci = var.cp4i-ace_ci
+  create_operator_group = var.cp4i-ace_create_operator_group
   git_credentials = module.gitops_repo.git_credentials
   gitops_config = module.gitops_repo.gitops_config
-  name = var.cp4i-mq_name
+  name = var.cp4i-ace_name
   server_name = module.gitops_repo.server_name
 }
 module "cp4i-version-dependency" {
@@ -71,6 +71,35 @@ module "gitops_repo" {
   type = var.gitops_repo_type
   username = var.gitops_repo_username
 }
+module "gitops-cp-ace" {
+  source = "github.com/cloud-native-toolkit/terraform-gitops-cp-app-connect?ref=v1.0.8"
+
+  catalog = module.gitops-cp-catalogs.catalog_ibmoperators
+  catalog_namespace = var.gitops-cp-ace_catalog_namespace
+  channel = module.cp4i-version-dependency.ace.channel
+  git_credentials = module.gitops_repo.git_credentials
+  gitops_config = module.gitops_repo.gitops_config
+  namespace = var.gitops-cp-ace_namespace
+  platform_navigator_name = var.gitops-cp-ace_platform_navigator_name
+  server_name = module.gitops_repo.server_name
+}
+module "gitops-cp-ace-designer" {
+  source = "github.com/cloud-native-toolkit/terraform-gitops-cp-ace-designer?ref=v1.0.5"
+
+  ace_designer_instance_name = var.gitops-cp-ace-designer_ace_designer_instance_name
+  ace_version = module.cp4i-version-dependency.ace.version
+  entitlement_key = module.gitops-cp-catalogs.entitlement_key
+  git_credentials = module.gitops_repo.git_credentials
+  gitops_config = module.gitops_repo.gitops_config
+  is_map_assist_required = var.gitops-cp-ace-designer_is_map_assist_required
+  kubeseal_cert = module.gitops_repo.sealed_secrets_cert
+  license = module.cp4i-version-dependency.ace.license
+  license_use = module.cp4i-version-dependency.ace.license_use
+  namespace = module.cp4i-ace.name
+  server_name = module.gitops_repo.server_name
+  storage_class_4_couchdb = var.rwo_storage_class
+  storage_class_4_mapassist = var.rwx_storage_class
+}
 module "gitops-cp-catalogs" {
   source = "github.com/cloud-native-toolkit/terraform-gitops-cp-catalogs?ref=v1.2.7"
 
@@ -79,36 +108,6 @@ module "gitops-cp-catalogs" {
   gitops_config = module.gitops_repo.gitops_config
   kubeseal_cert = module.gitops_repo.sealed_secrets_cert
   server_name = module.gitops_repo.server_name
-}
-module "gitops-cp-mq" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-cp-mq?ref=v1.1.7"
-
-  catalog = module.gitops-cp-catalogs.catalog_ibmoperators
-  catalog_namespace = var.gitops-cp-mq_catalog_namespace
-  channel = module.cp4i-version-dependency.mq.channel
-  git_credentials = module.gitops_repo.git_credentials
-  gitops_config = module.gitops_repo.gitops_config
-  namespace = var.gitops-cp-mq_namespace
-  server_name = module.gitops_repo.server_name
-}
-module "gitops-cp-queue-manager" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-cp-queue-manager?ref=v1.0.7"
-
-  config_map = var.gitops-cp-queue-manager_config_map
-  cpulimits = var.gitops-cp-queue-manager_cpulimits
-  cpurequests = var.gitops-cp-queue-manager_cpurequests
-  entitlement_key = module.gitops-cp-catalogs.entitlement_key
-  git_credentials = module.gitops_repo.git_credentials
-  gitops_config = module.gitops_repo.gitops_config
-  kubeseal_cert = module.gitops_repo.sealed_secrets_cert
-  license = module.cp4i-version-dependency.mq.license
-  license_use = module.cp4i-version-dependency.mq.license_use
-  mq_version = module.cp4i-version-dependency.mq.version
-  namespace = module.cp4i-mq.name
-  qmgr_instance_name = var.gitops-cp-queue-manager_qmgr_instance_name
-  qmgr_name = var.gitops-cp-queue-manager_qmgr_name
-  server_name = module.gitops_repo.server_name
-  storageClass = var.rwo_storage_class
 }
 module "olm" {
   source = "github.com/cloud-native-toolkit/terraform-k8s-olm?ref=v1.3.5"

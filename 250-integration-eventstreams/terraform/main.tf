@@ -12,15 +12,15 @@ module "cluster" {
   skip = var.cluster_skip
   tls_secret_name = var.cluster_tls_secret_name
 }
-module "cp4i-mq" {
+module "cp4i-es" {
   source = "github.com/cloud-native-toolkit/terraform-gitops-namespace?ref=v1.15.0"
 
-  argocd_namespace = var.cp4i-mq_argocd_namespace
-  ci = var.cp4i-mq_ci
-  create_operator_group = var.cp4i-mq_create_operator_group
+  argocd_namespace = var.cp4i-es_argocd_namespace
+  ci = var.cp4i-es_ci
+  create_operator_group = var.cp4i-es_create_operator_group
   git_credentials = module.gitops_repo.git_credentials
   gitops_config = module.gitops_repo.gitops_config
-  name = var.cp4i-mq_name
+  name = var.cp4i-es_name
   server_name = module.gitops_repo.server_name
 }
 module "cp4i-version-dependency" {
@@ -80,35 +80,47 @@ module "gitops-cp-catalogs" {
   kubeseal_cert = module.gitops_repo.sealed_secrets_cert
   server_name = module.gitops_repo.server_name
 }
-module "gitops-cp-mq" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-cp-mq?ref=v1.1.7"
+module "gitops-cp-es-operator" {
+  source = "github.com/cloud-native-toolkit/terraform-gitops-cp-es-operator?ref=v1.1.1"
 
   catalog = module.gitops-cp-catalogs.catalog_ibmoperators
-  catalog_namespace = var.gitops-cp-mq_catalog_namespace
-  channel = module.cp4i-version-dependency.mq.channel
+  catalog_namespace = var.gitops-cp-es-operator_catalog_namespace
+  channel = module.cp4i-version-dependency.eventstreams.channel
   git_credentials = module.gitops_repo.git_credentials
   gitops_config = module.gitops_repo.gitops_config
-  namespace = var.gitops-cp-mq_namespace
+  namespace = var.gitops-cp-es-operator_namespace
   server_name = module.gitops_repo.server_name
 }
-module "gitops-cp-queue-manager" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-cp-queue-manager?ref=v1.0.7"
+module "gitops-cp-event-streams" {
+  source = "github.com/cloud-native-toolkit/terraform-gitops-cp-event-streams?ref=v2.1.1"
 
-  config_map = var.gitops-cp-queue-manager_config_map
-  cpulimits = var.gitops-cp-queue-manager_cpulimits
-  cpurequests = var.gitops-cp-queue-manager_cpurequests
+  cpulimits = var.gitops-cp-event-streams_cpulimits
+  cpurequests = var.gitops-cp-event-streams_cpurequests
   entitlement_key = module.gitops-cp-catalogs.entitlement_key
+  es_apiVersion = var.gitops-cp-event-streams_es_apiVersion
+  es_version = var.gitops-cp-event-streams_es_version
   git_credentials = module.gitops_repo.git_credentials
   gitops_config = module.gitops_repo.gitops_config
+  kafka_inter_broker_protocol_version = var.gitops-cp-event-streams_kafka_inter_broker_protocol_version
+  kafka_listeners = var.gitops-cp-event-streams_kafka_listeners
+  kafka_log_message_format_version = var.gitops-cp-event-streams_kafka_log_message_format_version
+  kafka_replicas = var.gitops-cp-event-streams_kafka_replicas
+  kafka_storageclass = var.rwo_storage_class
+  kafka_storagesize = var.gitops-cp-event-streams_kafka_storagesize
+  kafka_storagetype = var.gitops-cp-event-streams_kafka_storagetype
   kubeseal_cert = module.gitops_repo.sealed_secrets_cert
-  license = module.cp4i-version-dependency.mq.license
-  license_use = module.cp4i-version-dependency.mq.license_use
-  mq_version = module.cp4i-version-dependency.mq.version
-  namespace = module.cp4i-mq.name
-  qmgr_instance_name = var.gitops-cp-queue-manager_qmgr_instance_name
-  qmgr_name = var.gitops-cp-queue-manager_qmgr_name
+  license_use = module.cp4i-version-dependency.eventstreams.license_use
+  memorylimits = var.gitops-cp-event-streams_memorylimits
+  memoryrequests = var.gitops-cp-event-streams_memoryrequests
+  namespace = module.cp4i-es.name
+  requestIbmServices_iam = var.gitops-cp-event-streams_requestIbmServices_iam
+  requestIbmServices_monitoring = var.gitops-cp-event-streams_requestIbmServices_monitoring
   server_name = module.gitops_repo.server_name
-  storageClass = var.rwo_storage_class
+  service_name = var.gitops-cp-event-streams_service_name
+  zookeeper_replicas = var.gitops-cp-event-streams_zookeeper_replicas
+  zookeeper_storageclass = var.rwo_storage_class
+  zookeeper_storagesize = var.gitops-cp-event-streams_zookeeper_storagesize
+  zookeeper_storagetype = var.gitops-cp-event-streams_zookeeper_storagetype
 }
 module "olm" {
   source = "github.com/cloud-native-toolkit/terraform-k8s-olm?ref=v1.3.5"

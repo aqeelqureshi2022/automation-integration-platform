@@ -79,69 +79,53 @@ output "gitops-cp-catalogs_entitlement_key" {
   value = module.gitops-cp-catalogs.entitlement_key
   sensitive = true
 }
-output "gitops-cp-mq_name" {
+output "gitops-cp-es-operator_name" {
   description = "The name of the module"
-  value = module.gitops-cp-mq.name
+  value = module.gitops-cp-es-operator.name
 }
-output "gitops-cp-mq_branch" {
+output "gitops-cp-es-operator_branch" {
   description = "The branch where the module config has been placed"
-  value = module.gitops-cp-mq.branch
+  value = module.gitops-cp-es-operator.branch
 }
-output "gitops-cp-mq_namespace" {
-  description = "The namespace where the module will be deployed"
-  value = module.gitops-cp-mq.namespace
-}
-output "gitops-cp-mq_server_name" {
+output "gitops-cp-es-operator_server_name" {
   description = "The server where the module will be deployed"
-  value = module.gitops-cp-mq.server_name
+  value = module.gitops-cp-es-operator.server_name
 }
-output "gitops-cp-mq_layer" {
+output "gitops-cp-es-operator_layer" {
   description = "The layer where the module is deployed"
-  value = module.gitops-cp-mq.layer
+  value = module.gitops-cp-es-operator.layer
 }
-output "gitops-cp-mq_type" {
+output "gitops-cp-es-operator_type" {
   description = "The type of module where the module is deployed"
-  value = module.gitops-cp-mq.type
+  value = module.gitops-cp-es-operator.type
 }
-output "gitops-cp-queue-manager_instance_name" {
+output "gitops-cp-event-streams_name" {
   description = "The name of the module"
-  value = module.gitops-cp-queue-manager.instance_name
+  value = module.gitops-cp-event-streams.name
 }
-output "gitops-cp-queue-manager_qmgr_instance_name" {
-  description = "Name of queue manager created"
-  value = module.gitops-cp-queue-manager.qmgr_instance_name
-}
-output "gitops-cp-queue-manager_config_map" {
-  description = "the value of gitops-cp-queue-manager_config_map"
-  value = module.gitops-cp-queue-manager.config_map
-}
-output "gitops-cp-queue-manager_name" {
-  description = "The name of the module"
-  value = module.gitops-cp-queue-manager.name
-}
-output "gitops-cp-queue-manager_branch" {
+output "gitops-cp-event-streams_branch" {
   description = "The branch where the module config has been placed"
-  value = module.gitops-cp-queue-manager.branch
+  value = module.gitops-cp-event-streams.branch
 }
-output "gitops-cp-queue-manager_namespace" {
+output "gitops-cp-event-streams_namespace" {
   description = "The namespace where the module will be deployed"
-  value = module.gitops-cp-queue-manager.namespace
+  value = module.gitops-cp-event-streams.namespace
 }
-output "gitops-cp-queue-manager_server_name" {
+output "gitops-cp-event-streams_server_name" {
   description = "The server where the module will be deployed"
-  value = module.gitops-cp-queue-manager.server_name
+  value = module.gitops-cp-event-streams.server_name
 }
-output "gitops-cp-queue-manager_layer" {
+output "gitops-cp-event-streams_layer" {
   description = "The layer where the module is deployed"
-  value = module.gitops-cp-queue-manager.layer
+  value = module.gitops-cp-event-streams.layer
 }
-output "gitops-cp-queue-manager_type" {
+output "gitops-cp-event-streams_type" {
   description = "The type of module where the module is deployed"
-  value = module.gitops-cp-queue-manager.type
+  value = module.gitops-cp-event-streams.type
 }
-output "cp4i-mq_name" {
+output "cp4i-es_name" {
   description = "Namespace name"
-  value = module.cp4i-mq.name
+  value = module.cp4i-es.name
 }
 output "gitops_repo_config_host" {
   description = "The host name of the bootstrap git repo"
